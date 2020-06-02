@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>student details</title>
+    <link rel="stylesheet" href="{% static 'css/st.css' %}" >
+</head>
+<body>
+
+    <table>
+        <tr>
+            <th>AGE</th>
+            <th>ADDRESS</th>
+        </tr>
+        <tr>
+            <td>{{students.age}}</td>
+            <td>{{students.address}}</td>
+        </tr>
+    </table>
+
+         
+
+</body>
+</html>

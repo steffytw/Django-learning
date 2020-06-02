@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee details</title>
+</head>
+<body>
+    <form>
+        <table>
+            {% for employee in employees %}
+            <tr>
+                <td>{{employee.name}}</td>
+                <td><img src="{{employee.upload_file.url}}" width="200px" height="200px"></td>
+            </tr>
+            {% endfor%}
+        </table>
+    </form>
+
+    
+</body>
+</html>

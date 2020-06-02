@@ -1,0 +1,10 @@
+table, th, td{
+    border: 1px solid black;
+}
+body{
+    background-color: cornsilk;
+    margin-top: 50px;
+    margin-left: 500px;
+    margin-right: 90px;
+    margin-bottom: 400px;
+}

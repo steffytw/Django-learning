@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <h1>{{course1}}</h1><span><img src="{% static 'images/img1.webp' %}" height="100px" width="100px"></span>
+    <ul>
+        
+        {% for data in pythoninfo1 %}
+        <li>{{data}}</li>
+        {% endfor %}
+    </ul>
+    
+    
+</body>
+</html>

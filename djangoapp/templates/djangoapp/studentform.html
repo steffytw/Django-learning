@@ -1,0 +1,14 @@
+<form action="" method="POST">
+    {% csrf_token %}
+        
+    <table style="border: 1px solid black;">
+        {% for field in form %}
+            <tr>
+                <th>{{field.label_tag}}</th>
+                <td>{{field}}</td>
+            </tr>
+        {% endfor %}
+    </table>
+
+<button type="submit">submit</button>
+</form>

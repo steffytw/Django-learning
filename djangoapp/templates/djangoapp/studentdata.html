@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>student data</title>
+    <link rel="stylesheet" href="{% static 'css/style2.css' %}" >
+</head>
+<body>
+    <div class="stud">
+        {% for student in students %}
+            <!-- <a href="studentDetails/{{student.id}}">{{student.name}}</a> -->
+            <a href="{% url 'studentDetails' student.id %}">{{student.name}}</a>
+
+        {% endfor %}
+    </div>
+
+</body>
+</html>
