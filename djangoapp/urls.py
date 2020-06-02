@@ -14,6 +14,7 @@ urlpatterns = [
     path('formval',views.validationFormData),
     path('crud',views.crudoperations),
     path('employee',views.employee),
+    path('employeemodel',views.employeeModelFormData),
     path('signup',views.signup),
     path('employeedetails',views.employeedetails),
     path('email',views.emailConsole),

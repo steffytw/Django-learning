@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse,HttpResponseRedirect
 from . models import student,employeeData,Registration
-from . forms import studentForm,studentDataForm,FormValidation,employeeForm,signupForm,MailSendingForm
+from . forms import studentForm,studentDataForm,FormValidation,employeeForm,signupForm,MailSendingForm,employeeModelForm
 from django.core.mail import send_mail
 from django.core.mail.message import EmailMessage
 
@@ -158,6 +158,20 @@ def  employee(request):
     else:
         form=employeeForm()
     return render(request, 'djangoapp/employee.html', {'form': form})
+
+# file upload using modelform
+
+def employeeModelFormData(request):
+    form =employeeModelForm()
+    if request.method == 'POST':
+        form =employeeModelForm(request.POST,request.FILES)
+        if form.is_valid():
+            form.save()
+            return HttpResponse('data is saved to database......')
+        else:
+            return HttpResponse(form.errors)
+    return render(request, 'djangoapp/empmodel.html', {'form': form})
+
 
 
 

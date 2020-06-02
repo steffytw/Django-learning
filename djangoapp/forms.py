@@ -1,5 +1,5 @@
 from django import forms
-from . models import student
+from . models import student,employeeData
 
 class studentForm(forms.ModelForm):
     class Meta:
@@ -34,6 +34,11 @@ class employeeForm(forms.Form):
     emp_id=forms.CharField(label='Employee id',widget=forms.NumberInput)
     address=forms.CharField(label='Address',widget=forms.Textarea)
     upload_file=forms.FileField()
+
+class employeeModelForm(forms.ModelForm):
+    class Meta:
+        model= employeeData
+        fields = ['name','age','emp_id','address','upload_file']
 
 class signupForm(forms.Form):
     firstname=forms.CharField(widget=forms.TextInput(),help_text='100 characters max.')
