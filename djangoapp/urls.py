@@ -19,5 +19,10 @@ urlpatterns = [
     path('employeedetails',views.employeedetails),
     path('email',views.emailConsole),
     path('mailsend',views.MailSending),
+    path('setSession',views.setSession,name='setSession'),
+    path('showSession',views.showSession,name='showSession'),
+    path('login',views.login),
+    path('api/',views.ListStudent.as_view()),
+    path('<int:pk>/',views.DetailStudent.as_view())
        
 ]

@@ -1,9 +1,13 @@
 from django.shortcuts import render
 from django.http import HttpResponse,HttpResponseRedirect
+from django.shortcuts import redirect
 from . models import student,employeeData,Registration
 from . forms import studentForm,studentDataForm,FormValidation,employeeForm,signupForm,MailSendingForm,employeeModelForm
 from django.core.mail import send_mail
 from django.core.mail.message import EmailMessage
+from rest_framework import generics
+from . import serializers
+
 
 # Create your views here.
 
@@ -18,7 +22,7 @@ def homepage(request):
 def layout(request):
     return render(request, 'djangoapp/layout.html')
 
-
+# inheriting layout to base
 def base(request):
     return render(request, 'djangoapp/base.html')
 
@@ -133,6 +137,44 @@ def validationFormData(request):
     return render(request, 'djangoapp/formvalidation.html', {'form': form})
 
 
+# signup form with validation
+
+def signup(request):
+    form=signupForm()
+    if request.method == 'POST':
+        form =signupForm(request.POST)
+        if form.is_valid():
+            firstname = form.cleaned_data['firstname']
+            lastname = form.cleaned_data['lastname']
+            username = form.cleaned_data['username']
+            gender = form.cleaned_data['gender']
+            address = form.cleaned_data['address']
+            country = form.cleaned_data['country']
+            password = form.cleaned_data['password']
+            confirmPassword = form.cleaned_data['confirmPassword']
+            date_of_birth =form.cleaned_data['date_of_birth']
+            
+
+            register = Registration()
+
+            register.firstname = firstname
+            register.lastname = lastname
+            register.username = username
+            register.gender = gender
+            register.address = address
+            register.country = country
+            register.password = password
+            register.confirmPassword=confirmPassword
+            register.date_of_birth = date_of_birth
+            register.save()
+            return HttpResponse('Form submitted!!')
+
+    return render(request, 'djangoapp/signup.html', {'form': form})
+
+
+
+
+
 # file upload
 
 def  employee(request):
@@ -172,46 +214,13 @@ def employeeModelFormData(request):
             return HttpResponse(form.errors)
     return render(request, 'djangoapp/empmodel.html', {'form': form})
 
-
-
-
-# signup form
-
-def signup(request):
-    form=signupForm()
-    if request.method == 'POST':
-        form =signupForm(request.POST)
-        if form.is_valid():
-            firstname = form.cleaned_data['firstname']
-            lastname = form.cleaned_data['lastname']
-            username = form.cleaned_data['username']
-            gender = form.cleaned_data['gender']
-            address = form.cleaned_data['address']
-            country = form.cleaned_data['country']
-            password = form.cleaned_data['password']
-            confirmPassword = form.cleaned_data['confirmPassword']
-            date_of_birth =form.cleaned_data['date_of_birth']
-            
-
-            register = Registration()
-
-            register.firstname = firstname
-            register.lastname = lastname
-            register.username = username
-            register.gender = gender
-            register.address = address
-            register.country = country
-            register.password = password
-            register.confirmPassword=confirmPassword
-            register.date_of_birth = date_of_birth
-            register.save()
-            return HttpResponse('Form submitted!!')
-
-    return render(request, 'djangoapp/signup.html', {'form': form})
+# displaying uploaded files
 
 def employeedetails(request):
     employees=employeeData.objects.all()
     return render(request, 'djangoapp/employeedetails.html', {'employees': employees})
+
+
 
 # mail in console
 
@@ -222,7 +231,6 @@ def emailConsole(request):
 #  mail sending with attachment
 
 def MailSending(request):
-    form=MailSendingForm
     if request.method=='POST':
         form=MailSendingForm(request.POST,request.FILES)
         if form.is_valid():
@@ -238,4 +246,59 @@ def MailSending(request):
     else:
         form=MailSendingForm()
     return render(request,'djangoapp/mailsend.html', {'form': form})
+
+# session
+
+def login(request):
+    if request.method == "POST":
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        print(username,password)
+        userdata = Registration.objects.filter(username=username, password=password)
+        if userdata:
+            form = signupForm()
+            request.session['username']=username
+            user = request.session['username']
+            request.session.set_expiry(300)
+            return render(request,'djangoapp/welcome.html',{'form':form,'user':user})
+
+    return render(request,'djangoapp/register.html')
+
+# setting session with httpredirect
+
+
+def setSession(request):
+    if request.method =="POST":
+        username=request.POST.get('username')
+        password=request.POST.get('password')
+        request.session['sessionusername']=username
+        request.session['sessionpassword']=password
+        return redirect('showSession')
+
+    return render(request,'djangoapp/setsession.html')
+
+# to view the session
+
+def showSession(request):
+    user=request.session['sessionusername']
+    pwd=request.session['sessionpassword']
+
+    return render(request,'djangoapp/showsession.html',{'user':user,'pwd':pwd})
+
+# Django rest api
+
+class ListStudent(generics.ListCreateAPIView):
+    queryset = student.objects.all()
+    serializer_class = serializers.StudentSerializer
+
+class DetailStudent(generics.RetrieveUpdateDestroyAPIView):
+    queryset = student.objects.all()
+    serializer_class = serializers.StudentSerializer
+
+
+
+
+
+
+
 

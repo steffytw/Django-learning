@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'djangoapp',
+    'rest_framework',
 
 ]
 
@@ -128,19 +129,13 @@ MEDIA_URL = '/media/'
 
 # Email in console
 
-EMAIL_BACKEND='django.core.mail.backends.console.EmailBackend'
+# EMAIL_BACKEND='django.core.mail.backends.console.EmailBackend'
 
 # Mail sending with attachment
 
-# Mail sending with attachment
-
-# EMAIL_BACKEND='django.core.mail.backends.smtp.EmailBackend'
-# EMAIL_HOST='smtp.gmail.com'
-# EMAIL_PORT=587
-# EMAIL_HOST_USER='a******@gmail.com'
-# EMAIL_HOST_PASSWORD='******'
-# EMAIL_USE_TLS=True
+EMAIL_BACKEND='django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST='smtp.gmail.com'
 EMAIL_PORT=587
-EMAIL_HOST_USER='abc@gmail.com'
-EMAIL_HOST_PASSWORD='12345'
+EMAIL_HOST_USER='thakamarathil@gmail.com'
+EMAIL_HOST_PASSWORD='shalom241997'
 EMAIL_USE_TLS=True

@@ -140,4 +140,85 @@ To run a Django app on localhost
   	python3 manage.py runserve
 	
 ```
+# Django REST API :
 
+Django Rest API  is an application used for rapidly building RESTful APIs based on Django models.
+
+
+- Step 1 Install djangorestframework
+
+```
+pip install djangorestframework
+```
+
+- Step 2 Go to settings.py in the django project folder and add 'rest_framework' in INSTALLED_APPS .
+
+```
+INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'djangoapp',
+    'rest_framework',
+
+]
+```
+- Step 3 Create a class in models.py in app folder
+
+```
+from django.db import models
+    class Student (models.Model):
+        name = models.CharField(max_length = 20)
+        address = models.TextField()
+
+    def __str__(self):
+        return self.name
+```
+- Step 4 Register the model in admin.py inside the app folder
+```
+from django.contrib import admin
+    from .models import Student
+    
+    admin.site.register(Student)
+```
+- Step 5 Create a new file serializers.py inside the app folder
+```
+ 
+    from rest_framework import serializers
+    from .import models
+    class StudentSerializer(serializers.ModelSerializer):
+        class Meta:
+            fields = ('id','name','address')
+            model = models.Student
+```
+- Step 6 Go to views.py in app folder 
+```
+    from django.shortcuts impport render
+    from rest_framework import generics
+    from .models import Student
+    from .import serializers
+    
+    class ListStudent(generics.ListCreateAPIView):
+        queryset = Student.objects.all()
+        serializer_class = serializers.StudentSerializer
+
+    class DetailStudent(generics.RetrieveUpdateDestroyAPIView):
+        queryset = Student.objects.all()
+        serializer_class = serializers.StudentSerializer
+```
+- Step 7 Update urls.py in app folder
+```
+    from django.urls import path
+    from .import views
+    urlpatterns = [
+        path('api/',views.ListStudent.as_view()),
+        path('<int:pk>/',views.DetailStudent.as_view())
+    ]
+```
+- Step 8  Check the output
+
+    Listview is at http://127.0.0.1:8000/api/
+    DetailView is at http://127.0.0.1:8000/2/
