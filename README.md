@@ -220,5 +220,5 @@ from django.contrib import admin
 ```
 - Step 8  Check the output
 
-    Listview is at http://127.0.0.1:8000/api/
-    DetailView is at http://127.0.0.1:8000/2/
+    - Listview is at http://127.0.0.1:8000/api/
+    - DetailView is at http://127.0.0.1:8000/2/
