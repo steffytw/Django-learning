@@ -140,6 +140,75 @@ To run a Django app on localhost
   	python3 manage.py runserve
 	
 ```
+# File Uploading in Django  :
+- Step 1 Create a model in models.py
+
+```
+
+class employeeData(models.Model):
+    name=models.CharField(max_length=50)
+    age=models.IntegerField()
+    address= models.TextField()
+    emp_id=models.IntegerField()
+    upload_file=models.FileField(upload_to="documents")
+    class Meta:
+        verbose_name_plural ="Employee Details"
+    def __str__(self):
+        return self.name
+```
+- Step 2 To upload the file in html ,create a form in forms.py
+
+```
+from django import forms
+from . models import employeeData
+class employeeModelForm(forms.ModelForm):
+    class Meta:
+        model= employeeData
+        fields = ['name','age','emp_id','address','upload_file']
+
+```
+- Step 3 To handle the uploaded file ,go to views.py
+
+```
+from django.shortcuts import render
+from django.http import HttpResponse
+from . models import employeeData
+from . forms import employeeModelForm
+
+def employeeModelFormData(request):
+    form =employeeModelForm()
+    if request.method == 'POST':
+        form =employeeModelForm(request.POST,request.FILES)
+        if form.is_valid():
+            form.save()
+            return HttpResponse('data is saved to database......')
+        else:
+            return HttpResponse(form.errors)
+    return render(request, 'djangoapp/empmodel.html', {'form': form})
+
+```
+- Step 4 To upload the file in html , add the enctype in form 
+
+```
+<form action="" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+        <table>
+            {{form}}
+        </table>
+        <button class="btn btn-priar" type="submit">Submit</button>
+   </form>
+
+```
+- Step 5 For uploading the file, add MEDIA_ROOT and MEDIA_URL in settings.py of the project folder
+
+```
+MEDIA_ROOT = os.path.join(BASE_DIR,'Media')
+MEDIA_URL = '/media/'
+
+
+```
+
+
 # Django REST API :
 
 Django Rest API  is an application used for rapidly building RESTful APIs based on Django models.
