@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customers</title>
+</head>
+<body>
+    <h1 style="color: blue;">Customer Details</h1>
+    {% for custom in Customers %} 
+        <h2>{{custom.name}}</h2>
+        <h5>{{custom.age}}</h5>
+        <h5>{{custom.address}}</h5>
+    {% endfor %}
+</body>
+</html>

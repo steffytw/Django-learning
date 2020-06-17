@@ -1,12 +1,12 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from django.http import HttpResponse,HttpResponseRedirect
-from django.shortcuts import redirect
-from . models import student,employeeData,Registration
+from . models import student,employeeData,Registration,Customer,College,Post
 from . forms import studentForm,studentDataForm,FormValidation,employeeForm,signupForm,MailSendingForm,employeeModelForm
 from django.core.mail import send_mail
 from django.core.mail.message import EmailMessage
 from rest_framework import generics
 from . import serializers
+from django.core.paginator import Paginator
 
 
 # Create your views here.
@@ -31,6 +31,14 @@ def studentData(request):
     students = student.objects.all()
     return render(request, 'djangoapp/students.html', {'students': students})
 
+def CustomersDetails(request):
+    Customers = Customer.objects.all()
+    return render(request, 'djangoapp/customers.html', {'Customers': Customers})  
+
+def CollegeData(request):
+    Colleges = College.objects.all()
+    return render(request, 'djangoapp/colleges.html', {'Colleges': Colleges})   
+
 # switching between html pages
 def studentDatalink(request):
     students = student.objects.all()
@@ -44,31 +52,32 @@ def studentDetails(request,id):
 # crud operations: create read update and delete
 
 def crudoperations(request):
-    student1= student(name='lekshmi',age=25,address='kerala')  # create operation 1
-    student1.save()
-    return HttpResponse('saved to db..........')
+    # student1= student(name='Rekha',age=25,address='kerala',gender='female')  # create operation 1
+    # student1.save()
+    # return HttpResponse('saved to db..........')
 
     # student2= student()        # create operation 2
     # student2.name='Reeba'
     # student2.age = 34
     # student2.address='Kerala'
+    # student2.gender='Female'
     # student2.save()
     # return HttpResponse('saved to db..........')
 
-    # student3=student.objects.create(name='Zerah',age=22,address='UK')   # create operation 3
+    # student3=student.objects.create(name='Zerah',age=22,address='UK',gender='Female')   # create operation 3
     # return HttpResponse('saved to db..........')
 
 
-    # student4=student.objects.get(id=25)  # update operation
+    # student4=student.objects.get(id=43)  # update operation
     # student4.name='Remya'
     # student4.age = 55
     # student4.save()
     # return HttpResponse('updated to db..........')
 
-    # student5 = student.objects.get(id=25)      # delete operation
-    # student5.delete()
+    student5 = student.objects.get(id=41)      # delete operation
+    student5.delete()
 
-    # return HttpResponse('Deleted from db..........')
+    return HttpResponse('Deleted from db..........')
 
 
 
@@ -98,14 +107,14 @@ def StudentFormData(request):
     if request.method == 'POST':
         form =studentDataForm(request.POST)
         if form.is_valid():
-            name = form.cleaned_data['name']
+            name1 = form.cleaned_data['name']
             age = form.cleaned_data['age']
             address = form.cleaned_data['address']
             gender = form.cleaned_data['gender']
 
             s = student()
 
-            s.name = name
+            s.name = name1
             s.age = age
             s.address = address
             s.gender=gender
@@ -284,6 +293,19 @@ def showSession(request):
     pwd=request.session['sessionpassword']
 
     return render(request,'djangoapp/showsession.html',{'user':user,'pwd':pwd})
+
+# pagination
+
+def index(request):
+    posts = Post.objects.all()
+    paginator = Paginator(posts, 2)
+    page = request.GET.get('page')
+    posts = paginator.get_page(page)
+    return render(request,'djangoapp/pagination.html',{'items': posts})
+
+def PaginationData(request,id):
+    posts = Post.objects.get(id=id)
+    return render(request, 'djangoapp/post.html', {'posts': posts})
 
 # Django rest api
 

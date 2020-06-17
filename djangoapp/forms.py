@@ -4,7 +4,7 @@ from . models import student,employeeData
 class studentForm(forms.ModelForm):
     class Meta:
         model = student
-        fields = ['name','age','address']
+        fields = ['name','age','address','gender']
 
 
 
@@ -12,7 +12,7 @@ class studentDataForm(forms.Form):
     name = forms.CharField(label ='Name',required=True)
     age= forms.CharField(label='Age',widget=forms.NumberInput)
     address=forms.CharField(label='Address',widget=forms.Textarea)
-    list1=[('M','Male'),('F','Female')]
+    list1=[('Male','Male'),('Female','Female')]
     gender  = forms.ChoiceField(choices=list1,widget = forms.RadioSelect)
 
 
@@ -23,10 +23,10 @@ class FormValidation(forms.Form):
     list1=[('M','Male'),('F','Female')]
     gender  = forms.ChoiceField(choices=list1,widget = forms.RadioSelect)
     def clean_name(self):
-        name = self.cleaned_data['name']
-        if name.isupper():
+        name1 = self.cleaned_data['name']
+        if name1.isupper():
             raise forms.ValidationError('Name should be lowercase')
-        return name
+        return name1
 
 class employeeForm(forms.Form):
     name = forms.CharField(label ='Name',required=True)

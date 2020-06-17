@@ -5,6 +5,7 @@ urlpatterns = [
     path('',views.homepage),
     path('layout',views.layout),
     path('base',views.base),
+    path('customer',views.CustomersDetails),
     path('studentinfo',views.studentData),
     path('studentlink',views.studentDatalink,name='studentDatalink'),
     path('studentDetails/<id>',views.studentDetails,name='studentDetails'),
@@ -22,7 +23,10 @@ urlpatterns = [
     path('setSession',views.setSession,name='setSession'),
     path('showSession',views.showSession,name='showSession'),
     path('login',views.login),
+    path('college',views.CollegeData),
+    path('page',views.index, name='index'),
+    path('flower/<id>',views.PaginationData,name='PaginationData'),
     path('api/',views.ListStudent.as_view()),
-    path('<int:pk>/',views.DetailStudent.as_view())
+    path('<int:pk>/',views.DetailStudent.as_view()),
        
 ]

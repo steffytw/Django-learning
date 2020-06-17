@@ -10,18 +10,20 @@
 <body>
     <table>
       <tr>
+        <th>id</th>
         <th>Name</th>
         <th>Age</th>
         <th>Address</th>
+        <th>Gender</th>
       </tr>
       {% for student in students %}
       <tr>
-          
+            <td>{{student.id}}</td>
             <td>{{student.name}}</td>
             <td>{{student.age}}</td>  
-            <td>{{student.address}}</td> 
-        
-          
+            <td>{{student.address}}</td>
+            <td>{{student.gender}}</td> 
+
       </tr>
       {% endfor %}
     </table>

@@ -1,0 +1,23 @@
+<h1 style="color: crimson;">Flowers</h1>
+
+{% for item in items %}
+
+    <p>{{ item.pk }} <a href="{% url 'PaginationData' item.id %}">{{item.title}}</a></p>
+
+{% endfor %}
+
+{% if items.paginator.num_pages > 1 %}
+
+    <div class="pagination">
+        {% if items.has_previous %}
+            <a href="?page=1">First</a>
+            <a href="?page={{ items.previous_page_number }}">Previous</a>
+        {% endif %}
+        <span>{{ items.number }}</span><span>of</span> <span>{{ items.paginator.num_pages }}</span>
+        {% if items.has_next %}
+            <a href="?page={{ items.next_page_number }}">Next</a>
+            <a href="?page={{ items.paginator.num_pages }}">Last</a>
+        {% endif %}
+    </div>
+
+{% endif %}

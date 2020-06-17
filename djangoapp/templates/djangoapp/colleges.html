@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>College</title>
+</head>
+<body>
+    <h1 style="color: blue;">College Details</h1>
+    {% for custom in Colleges %} 
+        <h2>{{custom.year_in_school}}</h2>
+        <h5>{{custom.media}}</h5>
+    {% endfor %}
+</body>
+</html>
